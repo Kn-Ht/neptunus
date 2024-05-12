@@ -1,0 +1,5 @@
+bin/*
+winresource/*.o
+*.old
+nob
+nob.exe
