@@ -1,16 +1,15 @@
 #include <stdio.h>
-#include "raywrapper.h"
+#include "game.c"
 
 int main(void) {
-    InitWindow(500, 500, "Hello");
+    Game game = game_init();
 
-    while (!WindowShouldClose()) {
-        BeginDrawing();
+    game_start(&game);
 
-        ClearBackground(BLACK);
-
-        EndDrawing();
+    while (game_running()) {
+        game_update(&game);   
     }
 
-    CloseWindow();
+    game_close(&game);
+    game_deinit(&game);
 }
