@@ -14,6 +14,7 @@ struct GameState {
 };
 
 static struct GameState state = {0};
+static float dt = 0.0f;
 
 void update_state() {
     state.left_mouse_down = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
@@ -22,6 +23,7 @@ void update_state() {
     state.mouse_wheel_move = GetMouseWheelMove();
     state.window_width = GetScreenWidth();
     state.window_height = GetScreenHeight();
+    dt = GetFrameTime();
 }
 
 #endif // STATE_H

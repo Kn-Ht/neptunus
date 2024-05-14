@@ -2,6 +2,7 @@
 #define RL_WRAPPER_H
 
 #include "../raylib/src/raylib.h"
+#include "../raylib/src/raymath.h"
 
 #ifdef DEBUG
 #  define debug_fps() DrawFPS(0, 0)
