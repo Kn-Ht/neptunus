@@ -1,31 +1,42 @@
 #ifndef GAME_C
 #define GAME_C
 
-typedef struct Game Game;
-
 #include "game/state.h"
-#include "game/loop.c"
 #include "game/assets.c"
 #include "raywrapper.h"
 #include "ui/monitor_info.h"
 
-struct Game {
+#if DEBUG
+#  define WINDOW_TITLE "Neptunus (DEBUG) [" __DATE__ "  ~  " __TIME__ "]"
+#else
+#  define WINDOW_TITLE "Neptunus"
+#endif
+
+typedef enum {
+    LOOP_TITLESCREEN,
+    LOOP_RUNNING,
+    LOOP_PAUSED
+} GameLoop;
+
+typedef struct Game {
     GameLoop loop_type;
     void (*loop)(struct Game*); // callback
     Assets assets;
-};
+} Game;
+
+#include "game/loop.c"
 
 Game game_init() {
     Game game;
     game.loop = &loop_titlescreen;
     game.loop_type = LOOP_TITLESCREEN;
-    game.assets = assets_load();
     return game;
 }
 
 void game_start(Game* self) {
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_HIGHDPI);
-    InitWindow(500, 500, "Neptunus");
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(500, 500, WINDOW_TITLE);
+    self->assets = assets_load();
     get_monitor_info();
     SetWindowSize(monitor_info.width / 2, monitor_info.height / 2);
 }

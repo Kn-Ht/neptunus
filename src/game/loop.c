@@ -3,16 +3,12 @@
 
 #include "../game.c"
 #include "../raywrapper.h"
-
-typedef enum {
-    LOOP_TITLESCREEN,
-    LOOP_RUNNING,
-    LOOP_PAUSED
-} GameLoop;
-
-void loop_titlescreen(struct Game* self) {
+ 
+void loop_titlescreen(Game* self) {
     BeginDrawing();
         ClearBackground(BLACK);
+        DrawTextureRec(self->assets.bg_stars, rect(0, 0, state.window_width, state.window_height), vec2(0, 0), WHITE);
+        debug_fps();
     EndDrawing();
 }
 

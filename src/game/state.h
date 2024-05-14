@@ -20,6 +20,8 @@ void update_state() {
     state.right_mouse_down = IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
     state.last_key = GetKeyPressed();
     state.mouse_wheel_move = GetMouseWheelMove();
+    state.window_width = GetScreenWidth();
+    state.window_height = GetScreenHeight();
 }
 
 #endif // STATE_H
