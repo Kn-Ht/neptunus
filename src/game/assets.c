@@ -7,9 +7,10 @@
 #define FONT_CODEPOINTS 300
 
 // Binary files (incbin) {
-#if !DEBUG
+#ifndef DEBUG
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #define INCBIN_PREFIX bin_
+#define INCBIN_SILENCE_BITCODE_WARNING
 #include "../../incbin/incbin.h"
 
 #define add_img(TO, NAME, PATH, FILETYPE)                                      \

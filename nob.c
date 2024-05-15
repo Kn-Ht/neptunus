@@ -52,7 +52,7 @@
 
 // for release mode
 #ifndef CFLAGS_RELEASE
-#  define CFLAGS_RELEASE " -Ofast -s "
+#  define CFLAGS_RELEASE " -O2 -s "
 #endif
 
 // for debug mode
@@ -116,7 +116,10 @@ typedef enum {
 } BuildMode;
 
 void print_usage(const char* program) {
-    fprintf(stderr, "USAGE: %s [release/debug] [run]\n", program);
+    fprintf(stderr, "USAGE: %s [release/debug] [run] [bundle]\n", program);
+    fprintf(stderr, "  release/debug: controls compilation flags\n");
+    fprintf(stderr, "  run:           Run the produced executable after (optionally) compiling\n");
+    fprintf(stderr, "  bundle:        Bundle the program alongside it's assets");
 }
 
 int main(int argc, char** argv) {

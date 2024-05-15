@@ -7,7 +7,8 @@
 struct GameState {
     int window_width;
     int window_height;
-    KeyboardKey last_key;
+    int last_key;
+    Vec2 mouse_pos;
     float mouse_wheel_move;
     bool left_mouse_down;
     bool right_mouse_down;
@@ -23,6 +24,7 @@ void update_state() {
     state.mouse_wheel_move = GetMouseWheelMove();
     state.window_width = GetScreenWidth();
     state.window_height = GetScreenHeight();
+    state.mouse_pos = GetMousePosition();
     dt = GetFrameTime();
 }
 

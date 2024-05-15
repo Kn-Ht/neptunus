@@ -24,6 +24,8 @@ typedef struct Game {
     Assets assets;
 } Game;
 
+#include "ui/ui.c"
+
 #include "game/loop.c"
 
 Game game_init() {
@@ -31,6 +33,9 @@ Game game_init() {
 }
 
 void game_start(Game* self) {
+    // give the ui a handle to `self`
+    ui_game_ptr = self;
+
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(500, 500, WINDOW_TITLE);
     // The window must be opened for assets and monitor info te be loaded.

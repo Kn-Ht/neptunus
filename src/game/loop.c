@@ -42,8 +42,7 @@ void loop_titlescreen(Game* self) {
         DrawTextEx(self->assets.fonts.doomed, "NeptuNus", vec2(30.0, 30.0), state.window_width * 0.07, 1.0, WHITE);
 
         // Draw the buttons
-        
-     
+        ui_button(UI_SIMPLE, "Hello, World!", rect(30, 30, 200, 50));
 
         debug_fps();
     EndDrawing();
