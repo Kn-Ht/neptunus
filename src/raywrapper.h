@@ -15,8 +15,9 @@ typedef Vector3 Vec3;
 typedef Vector4 Vec4;
 typedef Rectangle Rect;
 
-#define rect(X, Y, W, H) ((Rect){(X), (Y), (W), (H)})
-#define vec2(X, Y) ((Vec2){(X), (Y)})
-#define vec3(X, Y, Z) ((Vec3){(X), (Y), (Z)})
+#define rect(X, Y, W, H) ((Rect){(float)(X), (float)(Y), (float)(W), (float)(H)})
+#define vec2(X, Y) ((Vec2){(float)(X), (float)(Y)})
+#define vec3(X, Y, Z) ((Vec3){(float)(X), (float)(Y), (float)(Z)})
+#define vec4 rect
 
 #endif // RL_WRAPPER_H

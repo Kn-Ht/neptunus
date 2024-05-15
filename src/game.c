@@ -27,18 +27,22 @@ typedef struct Game {
 #include "game/loop.c"
 
 Game game_init() {
-    Game game;
-    game.loop = &loop_titlescreen;
-    game.loop_type = LOOP_TITLESCREEN;
-    return game;
+    return (Game) { .loop_type = LOOP_TITLESCREEN, .loop = &loop_titlescreen };
 }
 
 void game_start(Game* self) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(500, 500, WINDOW_TITLE);
+    // The window must be opened for assets and monitor info te be loaded.
     self->assets = assets_load();
     get_monitor_info();
-    SetWindowSize(monitor_info.width / 2, monitor_info.height / 2);
+
+    int min_w = monitor_info.width / 2;
+    int min_h = monitor_info.height / 2;
+
+    SetWindowMinSize(min_w, min_h);
+    SetWindowSize(min_w, min_h);
+    SetExitKey(0);
 }
 
 void game_close(Game* self) {

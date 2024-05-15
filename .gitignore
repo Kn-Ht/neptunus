@@ -3,3 +3,5 @@ winresource/*.o
 *.old
 nob
 nob.exe
+.DS_Store
+*~
