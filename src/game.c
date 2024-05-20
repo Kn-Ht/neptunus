@@ -14,6 +14,7 @@
 
 typedef enum {
     LOOP_TITLESCREEN,
+    LOOP_OPTIONS,
     LOOP_RUNNING,
     LOOP_PAUSED
 } GameLoop;
@@ -37,6 +38,7 @@ void game_start(Game* self) {
     ui_game_ptr = self;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    SetTargetFPS(200);
     InitWindow(500, 500, WINDOW_TITLE);
     // The window must be opened for assets and monitor info te be loaded.
     self->assets = assets_load();
@@ -51,6 +53,7 @@ void game_start(Game* self) {
 }
 
 void game_close(Game* self) {
+    EnableCursor();
     CloseWindow();
 }
 

@@ -14,10 +14,13 @@ struct GameState {
     bool right_mouse_down;
 };
 
+static struct GameState prev_state = {0};
 static struct GameState state = {0};
 static float dt = 0.0f;
 
 void update_state() {
+    prev_state = state;
+    
     state.left_mouse_down = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
     state.right_mouse_down = IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
     state.last_key = GetKeyPressed();
