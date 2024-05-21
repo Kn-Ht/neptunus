@@ -29,55 +29,51 @@ pub mod icons {
 }
 
 pub struct Fonts {
-    doomed: Font
+    pub doomed: Font,
 }
 
 pub struct Backgrounds {
-    stars: Texture
+    pub stars: Texture,
 }
 
 pub struct Models {
-    neptune: Model
+    pub neptune: Model,
 }
 
 pub struct Icons {
-    big: Image
+    pub big: Image,
 }
 
-pub struct Sounds {
+pub struct Sounds {}
 
-}
-
-pub struct Music {
-
-}
+pub struct Music {}
 
 pub struct Assets {
-    fonts: Fonts,
-    bg: Backgrounds,
-    models: Models,
-    icons: Icons,
-    sounds: Sounds,
-    music: Music,
+    pub fonts: Fonts,
+    pub bg: Backgrounds,
+    pub models: Models,
+    pub icons: Icons,
+    pub sounds: Sounds,
+    pub music: Music,
 }
 
 impl Assets {
     pub fn load() -> Self {
         Self {
             fonts: Fonts {
-                doomed: Font::load_bytes(fonts::DOOMED, crate::FontType::TTF, 100, None, 0)
+                doomed: Font::load_bytes(fonts::DOOMED, crate::FontType::TTF, 100, None, 0),
             },
             bg: Backgrounds {
-                stars: Texture::from(Image::from_bytes(bg::STARS, crate::ImageType::PNG))
+                stars: Texture::from(Image::from_bytes(bg::STARS, crate::ImageType::PNG)),
             },
             models: Models {
-                neptune: Model::load("assets/models/neptune.obj").unwrap()
+                neptune: Model::load("assets/models/neptune.obj").unwrap(),
             },
             icons: Icons {
-                big: Image::from_bytes(icons::ICON_BIG, crate::ImageType::PNG)
+                big: Image::from_bytes(icons::ICON_BIG, crate::ImageType::PNG),
             },
-            sounds: Sounds{},
-            music: Music{}
+            sounds: Sounds {},
+            music: Music {},
         }
     }
 }

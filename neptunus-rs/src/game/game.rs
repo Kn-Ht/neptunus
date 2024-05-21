@@ -1,8 +1,15 @@
+use raylib_ffi::enums::CameraProjection;
+
 use super::gameloop;
 use super::gameloop::GameLoop;
 use super::state::State;
-use crate::{debug_fps, draw};
+use crate::{cstr, debug_fps, draw};
 use crate::{rl_wrapper::prelude::*, Assets};
+
+struct TitleScreen {
+    camera: Camera3D,
+    rotation: f32,
+}
 
 pub struct Game {
     pub assets: Assets,
@@ -11,16 +18,42 @@ pub struct Game {
     pub state: State,
     window: Window,
     _audio_device: AudioDevice,
+    titlescreen: TitleScreen,
 }
 
 impl Game {
     pub fn titlescreen(&mut self) {
+        const ROTATION_SPEED: f32 = 2.0;
+
+        // update state
+        self.titlescreen.rotation = if self.titlescreen.rotation > 360.0 {
+            0.0
+        } else {
+            self.titlescreen.rotation + ROTATION_SPEED * self.state.dt
+        };
+        // update transform
+        self.assets
+            .models
+            .neptune
+            .set_transform(matrix_rotate_y(self.titlescreen.rotation.to_radians()));
+
         draw! {
             clear_background(colors::BLACK);
 
-            for i in 0..10000 {
-                rect(i as f32, i as f32, 100.0, 50.0).draw(colors::RED);
-            }
+            self.assets.bg.stars.draw_pro(
+                self.assets.bg.stars.bounds(),
+                rect(0., 0., self.state.screen_width as f32, self.state.screen_height as f32),
+                vec2(0., 0.),
+                0.0,
+                colors::WHITE
+            );
+
+            self.titlescreen.camera.scene(|_camera| {
+                self.assets.models.neptune.draw(
+                    vec3(0.0, 0.0, 5.0),
+                    10.0, colors::WHITE
+                );
+            });
 
             debug_fps!();
         }
@@ -39,6 +72,16 @@ impl Game {
             gameloop_type: GameLoop::TitleScreen,
             _audio_device: AudioDevice::init(),
             state: State::new(),
+            titlescreen: TitleScreen {
+                camera: Camera3D::new(
+                    vec3(15.0, 1.0, 10.0),
+                    vec3(0.0, 0.0, 12.0),
+                    vec3(0.0, 1.0, 0.0),
+                    45.0,
+                    CameraProjection::Perspective,
+                ),
+                rotation: 0.0,
+            },
         }
     }
 

@@ -1,3 +1,5 @@
+use crate::cstr;
+use crate::Color;
 use std::ffi::{c_char, CString};
 
 pub struct Font(raylib_ffi::Font);
@@ -46,5 +48,11 @@ impl Font {
                 codepoint_count,
             )
         })
+    }
+}
+
+pub fn draw_text(text: &str, x: i32, y: i32, font_size: i32, color: Color) {
+    unsafe {
+        raylib_ffi::DrawText(cstr!(text), x, y, font_size, color);
     }
 }
