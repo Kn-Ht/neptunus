@@ -22,42 +22,6 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn titlescreen(&mut self) {
-        const ROTATION_SPEED: f32 = 2.0;
-
-        // update state
-        self.titlescreen.rotation = if self.titlescreen.rotation > 360.0 {
-            0.0
-        } else {
-            self.titlescreen.rotation + ROTATION_SPEED * self.state.dt
-        };
-        // update transform
-        self.assets
-            .models
-            .neptune
-            .set_transform(matrix_rotate_y(self.titlescreen.rotation.to_radians()));
-
-        draw! {
-            clear_background(colors::BLACK);
-
-            self.assets.bg.stars.draw_pro(
-                self.assets.bg.stars.bounds(),
-                rect(0., 0., self.state.screen_width as f32, self.state.screen_height as f32),
-                vec2(0., 0.),
-                0.0,
-                colors::WHITE
-            );
-
-            self.titlescreen.camera.scene(|_camera| {
-                self.assets.models.neptune.draw(
-                    vec3(0.0, 0.0, 5.0),
-                    10.0, colors::WHITE
-                );
-            });
-
-            debug_fps!();
-        }
-    }
     pub fn new() -> Self {
         const WINDOW_TITLE: &str = if cfg!(debug_assertions) {
             concat!("Neptunus [DEBUG] v", env!("CARGO_PKG_VERSION"))
@@ -65,8 +29,13 @@ impl Game {
             concat!("Neptunus v", env!("CARGO_PKG_VERSION"))
         };
 
+        // start the window first, required for certain actions
+        let window = Window::new(WINDOW_TITLE).resizable().size(800, 600).init();
+
+        set_exit_key(KeyboardKey::Null);
+
         Self {
-            window: Window::new(WINDOW_TITLE).resizable().size(800, 600).init(),
+            window,
             assets: Assets::load(),
             gameloop: Self::titlescreen,
             gameloop_type: GameLoop::TitleScreen,
@@ -84,6 +53,45 @@ impl Game {
             },
         }
     }
+
+    pub fn titlescreen(&mut self) {
+        const ROTATION_SPEED: f32 = 2.0;
+
+        // update state
+        self.titlescreen.rotation = if self.titlescreen.rotation > 360.0 {
+            0.0
+        } else {
+            self.titlescreen.rotation + ROTATION_SPEED * self.state.dt
+        };
+        // update transform
+        self.assets
+            .objects
+            .neptune
+            .model
+            .set_transform(matrix_rotate_y(self.titlescreen.rotation.to_radians()));
+
+        draw! {
+            clear_background(colors::BLACK);
+
+            self.assets.bg.stars.draw_pro(
+                self.assets.bg.stars.bounds(),
+                rect(0., 0., self.state.screen_width as f32, self.state.screen_height as f32),
+                vec2(0., 0.),
+                0.0,
+                colors::WHITE
+            );
+
+            self.titlescreen.camera.scene(|_camera| {
+                self.assets.objects.neptune.draw(
+                    vec3(0.0, 0.0, 5.0),
+                    10.0, colors::WHITE
+                );
+            });
+
+            debug_fps!();
+        }
+    }
+
 
     pub fn running(&self) -> bool {
         !self.window.should_close()

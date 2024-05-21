@@ -1,4 +1,8 @@
-use crate::{Font, Image, Model, Texture};
+use raylib_ffi::{enums::MaterialMapIndex, MaterialMap};
+
+use crate::{Font, Image, Model, Object, Texture};
+
+use self::textures::NEPTUNE_SURFACE;
 
 macro_rules! include_assets {
     ($($name:ident: $path:literal),*) => {
@@ -36,8 +40,8 @@ pub struct Backgrounds {
     pub stars: Texture,
 }
 
-pub struct Models {
-    pub neptune: Model,
+pub struct Objects {
+    pub neptune: Object,
 }
 
 pub struct Icons {
@@ -51,7 +55,7 @@ pub struct Music {}
 pub struct Assets {
     pub fonts: Fonts,
     pub bg: Backgrounds,
-    pub models: Models,
+    pub objects: Objects,
     pub icons: Icons,
     pub sounds: Sounds,
     pub music: Music,
@@ -66,8 +70,12 @@ impl Assets {
             bg: Backgrounds {
                 stars: Texture::from(Image::from_bytes(bg::STARS, crate::ImageType::PNG)),
             },
-            models: Models {
-                neptune: Model::load("assets/models/neptune.obj").unwrap(),
+            objects: Objects {
+                neptune: Object::new(
+                    Model::load("assets/models/neptune.obj").unwrap(), // FIXME
+                    Texture::from(Image::from_bytes(NEPTUNE_SURFACE, crate::ImageType::PNG))
+                )
+
             },
             icons: Icons {
                 big: Image::from_bytes(icons::ICON_BIG, crate::ImageType::PNG),

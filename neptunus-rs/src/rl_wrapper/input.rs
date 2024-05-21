@@ -1,4 +1,4 @@
-use raylib_ffi::{enums::MouseButton, Vector2};
+pub use raylib_ffi::{enums::{KeyboardKey, MouseButton}, Vector2};
 
 use crate::{return_wrap, vec2};
 
@@ -58,5 +58,11 @@ impl Mouse {
         unsafe {
             raylib_ffi::IsMouseButtonReleased(mouse_button as i32)
         }
+    }
+}
+
+pub fn set_exit_key(key: KeyboardKey) {
+    unsafe {
+        raylib_ffi::SetExitKey(key as i32);
     }
 }
