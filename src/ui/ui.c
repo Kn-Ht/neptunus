@@ -18,7 +18,7 @@ bool ui_button(UI_Style style, const char *text, Rect bounds) {
     bool clicked =
         hovered && prev_ctx.left_mouse_down && !prev_ctx.left_mouse_down;
 
-    Font *font = &(ui_game_ptr->assets.fonts.doomed);
+    Font font = fonts[FNT_DOOMED];
 
     // button colors
     Color bg = BLACK, fg = WHITE, border;
@@ -26,7 +26,7 @@ bool ui_button(UI_Style style, const char *text, Rect bounds) {
     float font_size = 0.1 * bounds.width;
 
     // Where to place the text?
-    Vec2 text_size = MeasureTextEx(*font, text, font_size, 1.0);
+    Vec2 text_size = MeasureTextEx(font, text, font_size, 1.0);
 
     Vec2 text_pos = {.x = bounds.x + ((bounds.width - text_size.x) / 2.0f),
                      .y = bounds.y + ((bounds.height - text_size.y) / 2.0f)};
@@ -39,7 +39,7 @@ bool ui_button(UI_Style style, const char *text, Rect bounds) {
 
             DrawRectangleRec(bounds, bg);
             DrawRectangleLinesEx(bounds, 2.0, border);
-            DrawTextEx(*font, text, text_pos, font_size, 1.0, fg);
+            DrawTextEx(font, text, text_pos, font_size, 1.0, fg);
 
             printf("Hello\n");
             return true;
@@ -48,13 +48,13 @@ bool ui_button(UI_Style style, const char *text, Rect bounds) {
 
             DrawRectangleRec(bounds, bg);
             DrawRectangleLinesEx(bounds, 2.0, border);
-            DrawTextEx(*font, text, text_pos, font_size, 1.0, fg);
+            DrawTextEx(font, text, text_pos, font_size, 1.0, fg);
         } else {
             border = RAYWHITE;
 
             DrawRectangleRec(bounds, bg);
             DrawRectangleLinesEx(bounds, 2.0, border);
-            DrawTextEx(*font, text, text_pos, font_size, 1.0, fg);
+            DrawTextEx(font, text, text_pos, font_size, 1.0, fg);
         }
     } break;
     default: {

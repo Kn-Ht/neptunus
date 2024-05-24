@@ -8,7 +8,9 @@
 void loop_options(Game* self);
 void loop_running(Game* self);
 
-void loop_titlescreen(Game* self) {
+static RenderTexture titlescreen_target = {0};
+
+void loop_menu(Game* self) {
     static Camera3D camera = {
         .fovy = 300,
         .position = {15.0f, 1.0f, 10.0f},
@@ -25,30 +27,32 @@ void loop_titlescreen(Game* self) {
     if (rotation > 360.0f) rotation = 0.0f; 
     else rotation += rotation_speed * dt;
 
-    self->assets.models.neptune.model.transform = MatrixRotateY(DEG2RAD*rotation);
+    objects[OBJ_NEPTUNE].transform = MatrixRotateY(DEG2RAD*rotation);
+
+    // draw to texture
 
     BeginDrawing();
         ClearBackground(BLACK);
         // Draw background
-        DrawTexturePro(self->assets.img.stars,
-                       rect(0, 0, self->assets.img.stars.width,
-                            self->assets.img.stars.height),
+        DrawTexturePro(textures[TXT_STARS],
+                       rect(0, 0, textures[TXT_STARS].width,
+                            textures[TXT_STARS].height),
                        rect(0, 0, ctx.window_width, ctx.window_height),
                        vec2(0, 0), 0.0, WHITE);
 
         // Draw the planet
         BeginMode3D(camera);
-            DrawModel(self->assets.models.neptune.model, vec3(0.0f, 0.0f, 5.0f), 10.0f, WHITE);
+            DrawModel(objects[OBJ_NEPTUNE], vec3(0.0f, 0.0f, 5.0f), 10.0f, WHITE);
         EndMode3D();
 
         const char* title = "NeptuNus";
 
         float title_size = ctx.window_width * 0.1;
-        Vector2 title_dims = MeasureTextEx(self->assets.fonts.doomed, title, title_size, 1.0);
+        Vector2 title_dims = MeasureTextEx(fonts[FNT_DOOMED], title, title_size, 1.0);
         float title_x = (ctx.window_width - title_dims.x) / 2.0;
 
         // Draw the text
-        DrawTextEx(self->assets.fonts.doomed, title, vec2(title_x, 30.0), title_size, 1.0, WHITE);
+        DrawTextEx(fonts[FNT_DOOMED], title, vec2(title_x, 30.0), title_size, 1.0, WHITE);
 
         // button dimensions
         float top_padding = title_size + 40.0f;
@@ -59,13 +63,11 @@ void loop_titlescreen(Game* self) {
 
         // Draw the buttons
         if (ui_button(UI_SIMPLE, "PLAY", rect(btn_x, top_padding, btn_width, btn_height))) {
-            self->loop_type = LOOP_RUNNING;
-            self->loop = &loop_running;
+            self->loop = LOOP_RUNNING;
             DisableCursor();
         }
         else if (ui_button(UI_SIMPLE, "OPTIONS", rect(btn_x, top_padding + btn_spacing, btn_width, btn_height))) {
-            self->loop_type = LOOP_OPTIONS;
-            self->loop = &loop_options;
+            self->loop = LOOP_OPTIONS;
         }
 
         debug_fps();

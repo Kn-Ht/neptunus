@@ -13,16 +13,14 @@
 #endif
 
 typedef enum {
-    LOOP_TITLESCREEN,
+    LOOP_MENU,
     LOOP_OPTIONS,
     LOOP_RUNNING,
     LOOP_PAUSED
 } GameLoop;
 
 typedef struct Game {
-    GameLoop loop_type;
-    void (*loop)(struct Game*); // callback
-    Assets assets;
+    GameLoop loop;
 } Game;
 
 #include "ui/ui.c"
@@ -30,7 +28,7 @@ typedef struct Game {
 #include "game/loop.c"
 
 Game game_init() {
-    return (Game) { .loop_type = LOOP_TITLESCREEN, .loop = &loop_titlescreen };
+    return (Game) { .loop = LOOP_MENU };
 }
 
 void game_start(Game* self) {
@@ -41,7 +39,8 @@ void game_start(Game* self) {
     SetTargetFPS(200);
     InitWindow(500, 500, WINDOW_TITLE);
     // The window must be opened for assets and monitor info te be loaded.
-    self->assets = assets_load();
+    load_assets();
+
     get_monitor_info();
 
     // Load UI style
@@ -61,7 +60,7 @@ void game_close(Game* self) {
 }
 
 void game_deinit(Game* self) {
-    assets_unload(&(self->assets));
+    unload_assets();
 }
 
 bool game_running() {
@@ -70,7 +69,15 @@ bool game_running() {
 
 void game_update(Game* self) {
     update_ctx();
-    self->loop(self);
+    switch (self->loop) {
+        case LOOP_MENU: {
+            loop_menu(self);
+        } break;
+        case LOOP_OPTIONS: {
+            loop_options(self);
+        } break;
+        default: {}
+    }
 }
 
 #endif // GAME_C
