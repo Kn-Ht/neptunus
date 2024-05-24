@@ -3,6 +3,7 @@
 
 #include "game/context.h"
 #include "game/assets.c"
+#include "game/settings.c"
 #include "raywrapper.h"
 #include "ui/monitor_info.h"
 
@@ -21,14 +22,14 @@ typedef enum {
 
 typedef struct Game {
     GameLoop loop;
+    Settings settings;
 } Game;
 
 #include "ui/ui.c"
-
 #include "game/loop.c"
 
 Game game_init() {
-    return (Game) { .loop = LOOP_MENU };
+    return (Game) { .loop = LOOP_MENU, .settings = settings_default() };
 }
 
 void game_start(Game* self) {
@@ -52,11 +53,15 @@ void game_start(Game* self) {
     SetWindowMinSize(min_w, min_h);
     SetWindowSize(min_w, min_h);
     SetExitKey(0);
+
+    // Start the audio service
+    InitAudioDevice();
 }
 
 void game_close(Game* self) {
     EnableCursor();
     CloseWindow();
+    CloseAudioDevice();
 }
 
 void game_deinit(Game* self) {
@@ -69,12 +74,23 @@ bool game_running() {
 
 void game_update(Game* self) {
     update_ctx();
+
+#ifdef DEBUG
+    if (IsKeyPressed(KEY_F5)) { // reload assets
+        unload_assets();
+        load_assets();
+    }
+#endif
+
     switch (self->loop) {
         case LOOP_MENU: {
             loop_menu(self);
         } break;
         case LOOP_OPTIONS: {
             loop_options(self);
+        } break;
+        case LOOP_RUNNING: {
+            loop_running(self);
         } break;
         default: {}
     }

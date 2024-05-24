@@ -6,5 +6,6 @@
         "*.cpp": "cpp",
         "*.m": "c",
         "locale": "c"
-    }
+    },
+    "C_Cpp.default.compilerPath": "C:\\ProgramData\\chocolatey\\bin\\gcc.exe"
 }

@@ -5,9 +5,9 @@
 
 typedef struct {
     /// 0..=100
-    uint32_t volume;
+    float volume;
     /// 0..=500
-    uint32_t frame_limit;
+    float frame_limit;
 } Settings;
 
 Settings settings_default() {
