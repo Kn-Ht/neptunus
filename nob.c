@@ -47,7 +47,7 @@
 
 // generic C compiler flags
 #ifndef CFLAGS
-#  define CFLAGS " -lm -Wall -Wextra -I include/ "
+#  define CFLAGS " -lm -Wall -Wextra -I raylib/src/ "
 #endif
 
 // for release mode

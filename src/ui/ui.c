@@ -2,8 +2,9 @@
 #define UI_C
 
 #include "../game.c"
-#include "../game/state.h"
+#include "../game/context.h"
 #include "../raywrapper.h"
+#include "style.c"
 #include <stdbool.h>
 
 typedef enum {
@@ -13,9 +14,9 @@ typedef enum {
 static struct Game *ui_game_ptr = NULL;
 
 bool ui_button(UI_Style style, const char *text, Rect bounds) {
-    bool hovered = CheckCollisionPointRec(state.mouse_pos, bounds);
+    bool hovered = CheckCollisionPointRec(ctx.mouse_pos, bounds);
     bool clicked =
-        hovered && prev_state.left_mouse_down && !state.left_mouse_down;
+        hovered && prev_ctx.left_mouse_down && !prev_ctx.left_mouse_down;
 
     Font *font = &(ui_game_ptr->assets.fonts.doomed);
 

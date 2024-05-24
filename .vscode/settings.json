@@ -1,8 +1,10 @@
 {
     "files.associations": {
+        "*.xyz": "v",
         "*.h": "c",
         "*.hpp": "cpp",
         "*.cpp": "cpp",
-        "*.m": "c"
+        "*.m": "c",
+        "locale": "c"
     }
 }

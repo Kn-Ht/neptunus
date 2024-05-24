@@ -1,7 +1,7 @@
 #ifndef GAME_C
 #define GAME_C
 
-#include "game/state.h"
+#include "game/context.h"
 #include "game/assets.c"
 #include "raywrapper.h"
 #include "ui/monitor_info.h"
@@ -44,6 +44,9 @@ void game_start(Game* self) {
     self->assets = assets_load();
     get_monitor_info();
 
+    // Load UI style
+    GuiLoadStyleDark();
+
     int min_w = monitor_info.width / 2;
     int min_h = monitor_info.height / 2;
 
@@ -66,7 +69,7 @@ bool game_running() {
 }
 
 void game_update(Game* self) {
-    update_state();
+    update_ctx();
     self->loop(self);
 }
 

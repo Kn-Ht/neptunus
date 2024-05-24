@@ -4,6 +4,9 @@
 #include "../raylib/src/raylib.h"
 #include "../raylib/src/raymath.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "../raygui/src/raygui.h"
+
 #ifdef DEBUG
 #  define debug_fps() DrawFPS(0, 0)
 #else
