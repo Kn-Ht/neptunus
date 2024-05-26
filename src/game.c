@@ -6,6 +6,7 @@
 #include "game/settings.c"
 #include "raywrapper.h"
 #include "ui/monitor_info.h"
+#include "ui/style.c"
 
 #if DEBUG
 #  define WINDOW_TITLE "Neptunus (DEBUG) [" __DATE__ "  ~  " __TIME__ "]"
@@ -17,27 +18,27 @@ typedef enum {
     LOOP_MENU,
     LOOP_OPTIONS,
     LOOP_RUNNING,
-    LOOP_PAUSED
+    LOOP_PAUSED,
+    LOOP_PAUSED_OPTIONS,
 } GameLoop;
 
 typedef struct Game {
     GameLoop loop;
-    Settings settings;
+    bool should_close;
 } Game;
 
-#include "ui/ui.c"
-#include "game/loop.c"
+#include "game/main.c"
+#include "ui/menu.c"
 
 Game game_init() {
-    return (Game) { .loop = LOOP_MENU, .settings = settings_default() };
+    return (Game) { .loop = LOOP_MENU, .should_close = false };
 }
 
 void game_start(Game* self) {
-    // give the ui a handle to `self`
-    ui_game_ptr = self;
+    uint32_t flags = FLAG_WINDOW_RESIZABLE;
+    if (settings.antialiasing) flags |= FLAG_MSAA_4X_HINT;
 
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    SetTargetFPS(200);
+    SetConfigFlags(flags);
     InitWindow(500, 500, WINDOW_TITLE);
     // The window must be opened for assets and monitor info te be loaded.
     load_assets();
@@ -56,20 +57,28 @@ void game_start(Game* self) {
 
     // Start the audio service
     InitAudioDevice();
+
+    // Set the state
+    apply_settings();
+
+    // prepare the menu screen
+    prepare_menu();
 }
 
+/// Close the window and all related
 void game_close(Game* self) {
     EnableCursor();
     CloseWindow();
     CloseAudioDevice();
 }
 
+/// Free all allocated objects
 void game_deinit(Game* self) {
     unload_assets();
 }
 
-bool game_running() {
-    return !WindowShouldClose();
+bool game_running(Game* self) {
+    return !(WindowShouldClose() || self->should_close);
 }
 
 void game_update(Game* self) {
@@ -86,9 +95,11 @@ void game_update(Game* self) {
         case LOOP_MENU: {
             loop_menu(self);
         } break;
+        case LOOP_PAUSED_OPTIONS:
         case LOOP_OPTIONS: {
             loop_options(self);
         } break;
+        case LOOP_PAUSED:
         case LOOP_RUNNING: {
             loop_running(self);
         } break;

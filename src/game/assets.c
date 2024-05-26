@@ -1,8 +1,6 @@
 #ifndef ASSETS_C
 #define ASSETS_C
 
-#define ASSETS_MAX 64
-
 #include "../raywrapper.h"
 #include "context.h"
 #include <stdio.h>
@@ -17,7 +15,7 @@
 #include "../../incbin/incbin.h"
 #endif
 
-Model load_obj(char* model_path, Texture texture) {
+Model load_obj(const char* model_path, Texture texture) {
     Model model = LoadModel(model_path);
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
     return model;
@@ -41,29 +39,31 @@ enum
     OBJ_MAX,
 
     SHD_PIXELATE = 0,
+    SHD_LIGHTING,
     SHD_MAX,
 };
 
-static Texture textures[ASSETS_MAX];
+static Texture textures[TXT_MAX];
 static const char* texture_paths[] = {
     [TXT_STARS] = "assets/bg/stars.png",
     [TXT_NEPTUNE_SURFACE] = "assets/textures/2k_neptune.png",
 };
 
-static Font fonts[ASSETS_MAX];
+static Font fonts[FNT_MAX];
 static const char* font_paths[] = {
     [FNT_DOOMED] = "assets/fonts/doomed.ttf",
     [FNT_PIXELLARI] = "assets/fonts/Pixellari.ttf"
 };
 
-static Model objects[ASSETS_MAX];
+static Model objects[OBJ_MAX];
 static const char* object_paths[] = {
     [OBJ_NEPTUNE] = "assets/models/neptune.obj",
 };
 
-static Shader shaders[ASSETS_MAX];
-static const char* shader_paths[] = {
-    [SHD_PIXELATE] = "assets/shaders/pixelate.fs"
+static Shader shaders[SHD_MAX];
+static const char* shader_paths[][2] = {
+    [SHD_PIXELATE] = {0, "assets/shaders/pixelate.fs"},
+    [SHD_LIGHTING] = {"assets/shaders/lighting.vs", "assets/shaders/lighting.fs"},
 };
 
 void load_assets() {
@@ -71,7 +71,7 @@ void load_assets() {
     for (i = 0; i < TXT_MAX; i++) textures[i] = LoadTexture(texture_paths[i]);
     for (i = 0; i < FNT_MAX; i++) fonts[i] = LoadFontEx(font_paths[i], FONT_CODEPOINTS, NULL, FONT_CODEPOINTS);
     for (i = 0; i < OBJ_MAX; i++) objects[i] = load_obj(object_paths[i], textures[TXT_NEPTUNE_SURFACE]);
-    for (i = 0; i < SHD_MAX; i++) shaders[i] = LoadShader(0, shader_paths[i]);
+    for (i = 0; i < SHD_MAX; i++) shaders[i] = LoadShader(shader_paths[i][0], shader_paths[i][1]);
     render_texture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
 }
 

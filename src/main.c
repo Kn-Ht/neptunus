@@ -5,7 +5,7 @@ int main(void) {
 
     game_start(&game);
 
-    while (game_running()) {
+    while (game_running(&game)) {
         game_update(&game);   
     }
 

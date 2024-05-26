@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 #include "../raywrapper.h"
+#include "../game/assets.c"
 
 #define DARK_STYLE_PROPS_COUNT 23
 
@@ -29,7 +30,7 @@ static const GuiStyleProp darkStyleProps[DARK_STYLE_PROPS_COUNT] = {
     {0, 9, 0x6a6a6aff},  // DEFAULT_BORDER_COLOR_DISABLED
     {0, 10, 0x818181ff}, // DEFAULT_BASE_COLOR_DISABLED
     {0, 11, 0x606060ff}, // DEFAULT_TEXT_COLOR_DISABLED
-    {0, 16, 0x0000002d}, // DEFAULT_TEXT_SIZE
+    {0, 16, 0x00000020}, // DEFAULT_TEXT_SIZE
     {0, 17, 0x00000000}, // DEFAULT_TEXT_SPACING
     {0, 18, 0x9d9d9dff}, // DEFAULT_LINE_COLOR
     {0, 19, 0x111111ff}, // DEFAULT_BACKGROUND_COLOR
@@ -63,7 +64,7 @@ static void GuiLoadStyleDark(void) {
 
     // Setup a white rectangle on the font to be used on shapes drawing,
     // it makes possible to draw shapes and text (full UI) in a single draw call
-    Rectangle fontWhiteRec = {     896,     896, 0, 1 };
+    Rectangle fontWhiteRec = { 896, 896, 0, 1 };
     SetShapesTexture(font.texture, fontWhiteRec);
 
     //-----------------------------------------------------------------
