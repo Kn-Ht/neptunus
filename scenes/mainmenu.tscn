@@ -1,0 +1,113 @@
+[gd_scene load_steps=10 format=3 uid="uid://dqf6h86qyawb3"]
+
+[ext_resource type="Script" path="res://scripts/mainmenu.gd" id="1_lhpkv"]
+[ext_resource type="Texture2D" uid="uid://cplmvn8hijpse" path="res://2k_neptune.png" id="1_nm08l"]
+[ext_resource type="Script" path="res://scripts/neptune.gd" id="2_gekq3"]
+[ext_resource type="FontFile" uid="uid://ixtu3oa5eebd" path="res://Pixellari.ttf" id="3_bmr8j"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="3_qhlxd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyfky"]
+albedo_texture = ExtResource("1_nm08l")
+
+[sub_resource type="SphereMesh" id="SphereMesh_03iht"]
+lightmap_size_hint = Vector2i(17, 9)
+add_uv2 = true
+rings = 64
+
+[sub_resource type="Environment" id="Environment_iy0q7"]
+background_mode = 2
+
+[sub_resource type="GDScript" id="GDScript_45m6e"]
+script/source = "extends Node
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[node name="menu" type="Node3D"]
+script = ExtResource("1_lhpkv")
+
+[node name="neptune" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.303159, 1.44988, 0.0393023)
+material_override = SubResource("StandardMaterial3D_lyfky")
+cast_shadow = 2
+mesh = SubResource("SphereMesh_03iht")
+script = ExtResource("2_gekq3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0160384, 1.44424, 1.79958)
+environment = SubResource("Environment_iy0q7")
+fov = 44.5
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.422618, -0.370073, -0.827309, 0, -0.912834, 0.408331, -0.906308, 0.172568, 0.38578, 0, 0, 0)
+light_energy = 0.493
+light_indirect_energy = 0.974
+light_angular_distance = 0.77
+light_bake_mode = 1
+shadow_enabled = true
+shadow_reverse_cull_face = true
+shadow_blur = 10.0
+directional_shadow_mode = 1
+directional_shadow_max_distance = 105.9
+
+[node name="button_container" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -447.0
+offset_top = -108.0
+offset_right = -118.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="btn_play" type="Button" parent="button_container"]
+texture_filter = 1
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_bmr8j")
+theme_override_font_sizes/font_size = 40
+text = "play"
+script = ExtResource("3_qhlxd")
+
+[node name="btn_settings" type="Button" parent="button_container"]
+texture_filter = 1
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_bmr8j")
+theme_override_font_sizes/font_size = 40
+text = "settings"
+script = ExtResource("3_qhlxd")
+
+[node name="btn_exit" type="Button" parent="button_container"]
+texture_filter = 1
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_bmr8j")
+theme_override_font_sizes/font_size = 40
+text = "exit"
+script = SubResource("GDScript_45m6e")
+
+[node name="title" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_left = 124.0
+offset_top = 117.0
+offset_right = 467.0
+offset_bottom = 177.0
+theme_override_fonts/normal_font = ExtResource("3_bmr8j")
+theme_override_font_sizes/normal_font_size = 65
+text = "NEPTUNUS"
+scroll_active = false
+shortcut_keys_enabled = false

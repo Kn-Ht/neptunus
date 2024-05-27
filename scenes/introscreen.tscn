@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://cldimmentshdo"]
+
+[ext_resource type="Texture2D" uid="uid://cplmvn8hijpse" path="res://2k_neptune.png" id="1_t8xgj"]
+[ext_resource type="Script" path="res://scripts/neptune.gd" id="2_rf2yr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyfky"]
+albedo_texture = ExtResource("1_t8xgj")
+
+[sub_resource type="SphereMesh" id="SphereMesh_03iht"]
+lightmap_size_hint = Vector2i(17, 9)
+add_uv2 = true
+rings = 64
+
+[sub_resource type="Environment" id="Environment_iy0q7"]
+background_mode = 2
+
+[node name="intro" type="Node3D"]
+
+[node name="neptune" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.264471, 1.12613, 1.08883)
+material_override = SubResource("StandardMaterial3D_lyfky")
+cast_shadow = 2
+mesh = SubResource("SphereMesh_03iht")
+script = ExtResource("2_rf2yr")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0160384, 1.44424, 1.79958)
+environment = SubResource("Environment_iy0q7")
+fov = 44.5
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.932953, -0.260266, -0.248715, -1.20798e-07, -0.690882, 0.722967, -0.359997, -0.674495, -0.644561, 0.020045, 0, -0.0025506)
+light_energy = 0.493
+light_indirect_energy = 0.974
+light_angular_distance = 0.77
+light_bake_mode = 1
+shadow_enabled = true
+shadow_reverse_cull_face = true
+shadow_blur = 10.0
+directional_shadow_mode = 1
+directional_shadow_max_distance = 105.9

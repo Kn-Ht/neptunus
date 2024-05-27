@@ -1,8 +1,2 @@
-bin/*
-winresource/*.o
-*.old
-nob
-nob.exe
-*.DS_Store
-*~
-neptunus-rs/target
+# Godot 4+ specific ignores
+.godot/
