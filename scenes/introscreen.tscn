@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cldimmentshdo"]
+[gd_scene load_steps=8 format=3 uid="uid://cldimmentshdo"]
 
 [ext_resource type="Texture2D" uid="uid://cplmvn8hijpse" path="res://2k_neptune.png" id="1_t8xgj"]
 [ext_resource type="Script" path="res://scripts/neptune.gd" id="2_rf2yr"]
+[ext_resource type="FontFile" uid="uid://ixtu3oa5eebd" path="res://Pixellari.ttf" id="3_22w0b"]
+[ext_resource type="Script" path="res://scripts/introtext.gd" id="4_ng5lv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyfky"]
 albedo_texture = ExtResource("1_t8xgj")
@@ -39,3 +41,35 @@ shadow_reverse_cull_face = true
 shadow_blur = 10.0
 directional_shadow_mode = 1
 directional_shadow_max_distance = 105.9
+
+[node name="introtext" type="RichTextLabel" parent="."]
+texture_filter = 1
+offset_right = 1164.0
+offset_bottom = 670.0
+theme_override_fonts/normal_font = ExtResource("3_22w0b")
+theme_override_font_sizes/normal_font_size = 40
+text = "The Federation has detected a spacetime anomaly  beneath the surface of neptune.
+
+It is your job to find and neutralise The Anomaly.
+
+Good luck."
+visible_characters = 13
+visible_ratio = 0.0902778
+script = ExtResource("4_ng5lv")
+
+[node name="enter_btn" type="Button" parent="."]
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -241.0
+offset_right = 128.0
+offset_bottom = -185.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_22w0b")
+theme_override_font_sizes/font_size = 30
+text = "ENTER"
